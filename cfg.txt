@@ -1,0 +1,2 @@
+Top:gg2ttbar = on
+Beams:eCM = 8000.
