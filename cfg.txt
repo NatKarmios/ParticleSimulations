@@ -1,2 +1,5 @@
-Top:gg2ttbar = on
-Beams:eCM = 8000.
+Print:quiet = on
+Beams:eCM = 8000. ## 7-14k
+HardQCD:all = on
+PhaseSpace:pTHatMin = 20.
+HadronLevel:Decay = off
