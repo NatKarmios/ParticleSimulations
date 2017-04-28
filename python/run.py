@@ -2,7 +2,8 @@
 # <editor-fold desc="Setup">
 
 
-from pythia_lib import pythia8
+import pythia8
+
 
 # <editor-fold desc="Helper Functions">
 
