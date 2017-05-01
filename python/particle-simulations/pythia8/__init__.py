@@ -1,1 +1,1 @@
-from python.pythia8.pythia8 import *
+from pythia8.pythia8 import *
