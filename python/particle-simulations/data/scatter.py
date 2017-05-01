@@ -7,7 +7,8 @@ DEFAULT_EVENTS_PER_ENERGY_STEP = 10000
 
 def get_scatter_data(
         energy_step: int=DEFAULT_ENERGY_STEP,
-        events_per_energy_step: int=DEFAULT_EVENTS_PER_ENERGY_STEP
+        events_per_energy_step: int=DEFAULT_EVENTS_PER_ENERGY_STEP,
+        pid: int=None
 ) -> str:
     p = util.new_pythia_instance()
 
@@ -15,6 +16,8 @@ def get_scatter_data(
     particle_data = []
 
     for energy in range(7000, 14000, energy_step):
+        if pid is not None:
+            print("{}: step {}/{}".format(pid, energy, 14000))
 
         p.readString("Beams:eCM = {}".format(energy))
         p.init()

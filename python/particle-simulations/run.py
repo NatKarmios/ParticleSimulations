@@ -1,4 +1,4 @@
 import util
 import data
 
-print(data.scatter())
+print(data.scatter(0))
