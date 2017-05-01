@@ -38,7 +38,6 @@ def upload_file_to_gists(filename) -> str:
             filename: {"content": content}
         }
     }
-    print(data)
 
     r = requests.post("https://api.github.com/gists", data=json.dumps(data))
     reply = json.loads(r.content.decode())
