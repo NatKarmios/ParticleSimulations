@@ -1,3 +1,5 @@
+from data.data_getter import DataGetter
+
 import util
 import pythia8
 
@@ -5,38 +7,40 @@ DEFAULT_ENERGY_STEP = 100
 DEFAULT_EVENTS_PER_ENERGY_STEP = 10000
 
 
-def get_scatter_data(
-        energy_step: int=DEFAULT_ENERGY_STEP,
-        events_per_energy_step: int=DEFAULT_EVENTS_PER_ENERGY_STEP,
-        pid: int=None
-) -> str:
-    p = util.new_pythia_instance()
+class Scatter(DataGetter):
 
-    filename = util.create_file()
+    def __init__(self, energy_step: int = DEFAULT_ENERGY_STEP,
+                 events_per_energy_step: int = DEFAULT_EVENTS_PER_ENERGY_STEP, type_="scatter"):
+        super().__init__(type_)
+        self.energy_step = energy_step
+        self.events_per_energy_step = events_per_energy_step
 
-    for energy in range(7000, 14000, energy_step):
-        if pid is not None:
-            print("{}: step {}/{}".format(pid, energy, 14000))
+    def get_data(self):
+        p = util.new_pythia_instance()
 
-        p.readString("Beams:eCM = {}".format(energy))
-        p.init()
+        for energy in range(7000, 14000, self.energy_step):
+            self.progress = (energy - 7000) / 7000
 
-        for i in range(events_per_energy_step):
-            p.next()
+            if self.pid is not None:
+                print("{}: step {}/{}".format(self.pid, energy, 14000))
 
-            meson_count = 0
-            baryon_count = 0
+            p.readString("Beams:eCM = {}".format(energy))
+            p.init()
 
-            lst = list(p.event)
+            for i in range(self.events_per_energy_step):
+                p.next()
 
-            mesons = list(filter(lambda prt: prt.id() in util.meson_codes, lst))
-            for _ in mesons:  # type: pythia8.Particle
-                meson_count += 1
+                meson_count = 0
+                baryon_count = 0
 
-            baryons = list(filter(lambda prt: prt.id() in util.baryon_codes, lst))
-            for _ in baryons:  # type: pythia8.Particle
-                baryon_count += 1
+                lst = list(p.event)
 
-            util.write_line_to_file(filename, (energy, meson_count, baryon_count))
+                mesons = list(filter(lambda prt: prt.id() in util.meson_codes, lst))
+                for _ in mesons:  # type: pythia8.Particle
+                    meson_count += 1
 
-    return util.upload_file_to_gists(filename)
+                baryons = list(filter(lambda prt: prt.id() in util.baryon_codes, lst))
+                for _ in baryons:  # type: pythia8.Particle
+                    baryon_count += 1
+
+                util.write_line_to_file(self.filename, (energy, meson_count, baryon_count))

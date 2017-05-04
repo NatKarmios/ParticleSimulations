@@ -1,1 +1,2 @@
-from data.scatter import get_scatter_data as scatter
+from data.scatter import Scatter
+from data.data_getter import DataGetter

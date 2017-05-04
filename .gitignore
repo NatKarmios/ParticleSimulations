@@ -1,3 +1,4 @@
 .idea/
 
 python/particle-simulations/pythia8/__pycache__/
+/python/particle-simulations/cfg.py
