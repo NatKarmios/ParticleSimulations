@@ -1,5 +1,7 @@
 from json import dumps
 
+from flask import Response as FlaskResponse
+
 
 class Response:
     def __init__(self, message: str=None, success: bool=True, data: dict=None):
@@ -18,6 +20,10 @@ class Response:
     @property
     def data(self) -> dict:
         return self.__data
+
+    @property
+    def reply(self) -> FlaskResponse:
+        return FlaskResponse(self.json, mimetype="application/json")
 
     @property
     def json(self) -> str:

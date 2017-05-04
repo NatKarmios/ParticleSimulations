@@ -21,8 +21,7 @@ class Scatter(DataGetter):
         for energy in range(7000, 14000, self.energy_step):
             self.progress = (energy - 7000) / 7000
 
-            if self.pid is not None:
-                print("{}: step {}/{}".format(self.pid, energy, 14000))
+            self._update(progress=(energy - 7000) / 7000, message="step {}/{}".format(energy, 14000))
 
             p.readString("Beams:eCM = {}".format(energy))
             p.init()
@@ -44,3 +43,4 @@ class Scatter(DataGetter):
                     baryon_count += 1
 
                 util.write_line_to_file(self.filename, (energy, meson_count, baryon_count))
+

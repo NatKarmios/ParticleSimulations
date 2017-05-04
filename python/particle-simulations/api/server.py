@@ -1,7 +1,8 @@
-from typing import Callable
+from typing import Callable, Dict
 from json import dumps as dump
 
-from flask import Flask
+from flask import Flask, request
+from flask import Response as FlaskResponse
 from flask_cors import CORS
 
 from cfg import *
@@ -12,7 +13,7 @@ class Server:
     def __init__(self,
                  ping_handler: Callable[[], Response]=None,
                  status_handler: Callable[[], Response]=None,
-                 add_handler: Callable[[], Response]=None):
+                 add_handler: Callable[[Dict], Response]=None):
         self.app = Flask(__name__)
         CORS(self.app)
 
@@ -38,19 +39,19 @@ class Server:
 
         if ping_handler is not None:
             @self.app.route('/')
-            def ping() -> str:
+            def ping() -> FlaskResponse:
                 if ping_handler is not None:
-                    return ping_handler().json
+                    return ping_handler().reply
 
         if status_handler is not None:
             @self.app.route('/status')
-            def status() -> str:
-                return status_handler().json
+            def status() -> FlaskResponse:
+                return status_handler().reply
 
         if add_handler is not None:
-            @self.app.route('/add')
-            def add() -> str:
-                return add_handler().json
+            @self.app.route('/add', methods=['POST'])
+            def add() -> FlaskResponse:
+                return add_handler(request.json).reply
 
     def start_server(self, host=HOST, port=PORT):
         self.app.run(host, port)
