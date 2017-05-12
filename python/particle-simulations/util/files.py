@@ -42,3 +42,7 @@ def upload_file_to_gists(filename) -> str:
     r = requests.post("https://api.github.com/gists", data=json.dumps(data))
     reply = json.loads(r.content.decode())
     return reply["html_url"]
+
+
+def delete_file(filename: str) -> None:
+    os.remove(data_dir+"/"+filename)

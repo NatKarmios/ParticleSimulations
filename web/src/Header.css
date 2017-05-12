@@ -1,0 +1,26 @@
+.navbar .container { height: 75px; }
+
+.navbar .container h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 10px;
+}
+
+.navbar button {
+    margin-top: 10px;
+    margin-right: 15px;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 48px;
+}
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

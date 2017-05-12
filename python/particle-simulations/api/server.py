@@ -7,15 +7,19 @@ from flask_cors import CORS
 
 from cfg import *
 from api import Response
+from api.auth import Auth
 
 
 class Server:
     def __init__(self,
-                 ping_handler: Callable[[], Response]=None,
+                 ping_handler: Callable[[], Response]=lambda: Response(message="Hello there!"),
                  status_handler: Callable[[], Response]=None,
-                 add_handler: Callable[[Dict], Response]=None):
+                 add_handler: Callable[[Dict], Response]=None,
+                 del_handler: Callable[[Dict], Response]=None):
         self.app = Flask(__name__)
         CORS(self.app)
+
+        self.auth = Auth()
 
         # <editor-fold desc="Error Handlers">
 
@@ -37,11 +41,9 @@ class Server:
 
         # </editor-fold>
 
-        if ping_handler is not None:
-            @self.app.route('/')
-            def ping() -> FlaskResponse:
-                if ping_handler is not None:
-                    return ping_handler().reply
+        @self.app.route('/')
+        def ping() -> FlaskResponse:
+            return ping_handler().reply
 
         if status_handler is not None:
             @self.app.route('/status')
@@ -50,8 +52,24 @@ class Server:
 
         if add_handler is not None:
             @self.app.route('/add', methods=['POST'])
+            @self.auth.requires_auth
             def add() -> FlaskResponse:
                 return add_handler(request.json).reply
+
+        if del_handler is not None:
+            @self.app.route('/del', methods=['POST'])
+            @self.auth.requires_auth
+            def del_() -> FlaskResponse:
+                return del_handler(request.json).reply
+
+        @self.app.route('/login', methods=['POST'])
+        def login() -> FlaskResponse:
+            return self.auth.login(request.json)
+
+        @self.app.route('/test_auth')
+        @self.auth.requires_auth
+        def test_auth() -> FlaskResponse:
+            return ping_handler().reply
 
     def start_server(self, host=HOST, port=PORT):
         self.app.run(host, port)
