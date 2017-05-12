@@ -1,3 +1,4 @@
+from os.path import isfile
 from typing import Callable, Dict
 from json import dumps as dump
 
@@ -11,11 +12,19 @@ from api.auth import Auth
 
 
 class Server:
-    def __init__(self,
+    def __init__(self, use_ssl=USE_SSL,
                  ping_handler: Callable[[], Response]=lambda: Response(message="Hello there!"),
                  status_handler: Callable[[], Response]=None,
                  add_handler: Callable[[Dict], Response]=None,
                  del_handler: Callable[[Dict], Response]=None):
+
+        self.ssl_context = None
+        if use_ssl:
+            if isfile(SSL_CRT_PATH) and isfile(SSL_KEY_PATH):
+                self.ssl_context = (SSL_CRT_PATH, SSL_KEY_PATH)
+            else:
+                print("SSL path(s) invalid! Defualting to no SSL.")
+
         self.app = Flask(__name__)
         CORS(self.app)
 
@@ -72,7 +81,7 @@ class Server:
             return ping_handler().reply
 
     def start_server(self, host=HOST, port=PORT):
-        self.app.run(host, port)
+        self.app.run(host, port, ssl_context=self.ssl_context)
 
 if __name__ == '__main__':
     Server().start_server()

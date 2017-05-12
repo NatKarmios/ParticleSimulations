@@ -10,6 +10,7 @@ RUN mkdir output
 ADD data ./data
 ADD util ./util
 ADD api ./api
+ADD ssl ./ssl
 
 ADD run.py ./
 ADD cfg.txt ./

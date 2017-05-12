@@ -61,7 +61,7 @@ const add_scatter = () => {
                 console.log(token);
                 $.ajax({
                     method: "POST",
-                    url: "http://"+address+"/add",
+                    url: "https://"+address+"/add",
                     data: JSON.stringify({
                         type: 'scatter',
                         params: {energy_step: energy_step, events_per_energy_step: events_per_energy_step}}),
@@ -138,7 +138,7 @@ const add_hist = () => {
                 console.log(token);
                 $.ajax({
                     method: "POST",
-                    url: "http://"+address+"/add",
+                    url: "https://"+address+"/add",
                     data: JSON.stringify({
                         type: 'hist',
                         params: {energy_level: energy_level, number_of_collisions: number_of_collisions}}),
@@ -192,7 +192,7 @@ const delete_generator = (pid) => {
         preConfirm: () => {return new Promise((resolve, reject) => {
             $.ajax({
                     method: "POST",
-                    url: "http://"+address+"/del",
+                    url: "https://"+address+"/del",
                     data: JSON.stringify({
                         pid: pid,
                     }),
@@ -375,7 +375,7 @@ class App extends React.Component {
 
     getInitalData(self, address) {
         return new Promise((resolve, reject) => {
-            $.ajax('http://' + address + '/status').then(
+            $.ajax('https://' + address + '/status').then(
                 (data) => {
                     connection_success = true;
                     resolve();
@@ -408,7 +408,7 @@ class App extends React.Component {
         return new Promise((resolve, reject) => {
             $.ajax({
                 method: "POST",
-                url: "http://"+this.state.address+"/login",
+                url: "https://"+this.state.address+"/login",
                 data: JSON.stringify({pass: pass}),
                 headers: {
                     'Content-Type': 'application/json'
@@ -480,7 +480,7 @@ class App extends React.Component {
         let self = this;
         setTimeout(() => {
             console.log("getting...");
-            $.ajax("http://"+self.state.address+"/status").then(
+            $.ajax("https://"+self.state.address+"/status").then(
                 (data) => {
                     self.setData(data);
                     self.get_status_loop()
@@ -494,7 +494,7 @@ class App extends React.Component {
         let token_ = Cookies.get('auth-token');
         if (token_) {
             $.ajax({
-                url: "http://" + address + "/test_auth",
+                url: "https://" + address + "/test_auth",
                 headers: {
                     Authorization: "Basic " + btoa("admin:" + token_)
                 }
