@@ -75,6 +75,10 @@ class APIServer:
     def delete_generator(self, pid: int):
         self.data_generators.pop(pid).cancel()
 
+    def get_flask(self):
+        self.started = True
+        return self.server.app
+
 
 if __name__ == '__main__':
     api = APIServer()
