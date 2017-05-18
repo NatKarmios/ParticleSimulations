@@ -1,20 +1,6 @@
 FROM natk/python-pythia
 
-RUN apt-get install -y nginx python-pip
-RUN service nginx stop
-
-ADD nginx.conf /etc/nginx/
-ADD supervisord.conf /etc/
-
-RUN pip install gunicorn
-
-RUN mkdir /var/www/particles
-RUN mkdir /var/www/particles/logs
-
-RUN pip install requests
-RUN pip install flask
-RUN pip install flask-cors
-RUN pip install typing
+RUN pip install gunicorn requests flask flask-cors typing
 
 RUN mkdir output
 
@@ -27,9 +13,6 @@ ADD pythia_cfg.txt ./
 ADD cfg.py ./
 ADD wsgi.py ./
 
-RUN pip2 install supervisor
-RUN pip2 install supervisor-stdout
+EXPOSE 5000
 
-EXPOSE 8080
-
-CMD supervisord -c /etc/supervisord.conf -n
+CMD gunicorn wsgi:app -b 0.0.0.0:5000 --log-level=debug
