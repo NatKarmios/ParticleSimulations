@@ -57,7 +57,7 @@ class APIServer:
         self.started = True
 
     def get_status(self) -> Dict[str, List]:
-        return {"generators": list(map(lambda generator: generator.dict, self.data_generators))}
+        return {"generators": list(map(lambda generator: generator.dict, self.data_generators.values()))}
 
     def add_scatter(self, params: dict) -> int:
         scatter = Scatter(**params)
