@@ -15,7 +15,7 @@ class APIServer:
                              del_handler=self.__del)
 
         self.started = False
-        self.data_generators = []  # type: List[DataGetter]
+        self.data_generators = {}  # type: Dict[int, DataGetter]
 
     def __status(self) -> Response:
         return Response(data=self.get_status())
@@ -30,7 +30,6 @@ class APIServer:
             else:
                 params = {}
 
-            pid = None
             if args["type"] == "scatter":
                 pid = self.add_scatter(params)
             elif args["type"] == "hist":
@@ -62,13 +61,13 @@ class APIServer:
 
     def add_scatter(self, params: dict) -> int:
         scatter = Scatter(**params)
-        self.data_generators.append(scatter)
+        self.data_generators[scatter.pid] = scatter
         scatter.start()
         return scatter.pid
 
     def add_hist(self, params: dict) -> int:
         hist = Hist(**params)
-        self.data_generators.append(hist)
+        self.data_generators[hist.pid] = hist
         hist.start()
         return hist.pid
 
