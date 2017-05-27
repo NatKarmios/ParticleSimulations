@@ -18,7 +18,7 @@ can have an open port to be either directly accessed by clients
 The Docker container requires a volume at `/root/cfg`, which must contain:
 - `pythia_cfg.txt`, which specifies parameters to be fed into the Pythia generator
 - `cfg.py`, which requires a variable, `PASSWD`, which serves as the password for the API authentication.
-<br />
+
 *Side note: a `pythia_cfg.txt` is provided in `python/cfg/pythia_cfg.txt`,
 and an example of `cfg.py` is at `python/cfg/cfg.py`*
 
