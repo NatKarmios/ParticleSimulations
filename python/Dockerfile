@@ -13,7 +13,6 @@ ADD ./particle_simulations/data ./data
 ADD ./particle_simulations/util ./util
 ADD ./particle_simulations/api ./api
 
-ADD ./particle_simulations/cfg.py ./
 ADD ./particle_simulations/wsgi.py ./
 
 VOLUME ./cfg
