@@ -17,5 +17,5 @@ can have an open port to be either directly accessed by clients
 
 Example `docker run` command:
 <br />
-`$ docker run -p 127.0.0.1:5000:5000 -v ~/.particles/ --name particles natk/particles`
+`$ docker run -p 127.0.0.1:5000:5000 -v ./cfg --name particles natk/particles`
 
