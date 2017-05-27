@@ -15,7 +15,15 @@ The API server's [Docker container](https://hub.docker.com/r/natk/particles/)
 can have an open port to be either directly accessed by clients 
 ***(not reccommended)*** or used in conjunction with a webserver (e.g. Apache or nginx).
 
+The Docker container requires a volume at `/root/cfg`, which must contain:
+- `pythia_cfg.txt`, which specifies parameters to be fed into the Pythia generator
+- `cfg.py`, which requires a variable, `PASSWD`, which serves as the password for the API authentication.
+*Side note: a `pythia_cfg.txt` is provided in `python/cfg/pythia_cfg.txt`,
+and an example of `cfg.py` is at `python/cfg/cfg.py`*
+
 Example `docker run` command:
 <br />
-`$ docker run -p 127.0.0.1:5000:5000 -v ./cfg --name particles natk/particles`
+`$ docker run -d -p 127.0.0.1:5000:5000 -v $PWD/cfg:/root/cfg --name particles natk/particles`
+<br />
+There is also a provided `run.sh` which should work, provided the necessary config files are present..
 
