@@ -1,3 +1,4 @@
 .idea/
 
 cfg.py
+*/__pycache__/
