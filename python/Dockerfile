@@ -2,9 +2,6 @@ FROM natk/python-pythia
 
 RUN pip install gunicorn
 
-RUN mkdir /var/www/particles
-RUN mkdir /var/www/particles/logs
-
 RUN pip install requests
 RUN pip install flask
 RUN pip install flask-cors
