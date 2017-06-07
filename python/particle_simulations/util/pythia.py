@@ -6,7 +6,7 @@ from util import meson_codes, baryon_codes
 
 def new_instance(collision_energy: int=None) -> pythia8.Pythia:
     p = pythia8.Pythia("", False)
-    p.readFile("pythia_cfg.txt")
+    p.readFile("./cfg/pythia_cfg.txt")
 
     if collision_energy is not None:
         if not isinstance(collision_energy, int):
