@@ -23,3 +23,10 @@ def set_energy(pythia: pythia8.Pythia, energy: int) -> None:
 def count_mesons_and_baryons(event: Iterable[pythia8.Particle]) -> Tuple[int, int]:
     return (len(list(filter(lambda prt: prt.id() in meson_codes, event))),
             len((list(filter(lambda prt: prt.id() in baryon_codes, event)))))
+
+
+def get_pseudorapidity(event: Iterable[pythia8.Particle]) -> float:
+    for prt in event:
+        if prt.id() == 6:
+            return prt.eta()
+    raise RuntimeError("Failed to get pseudorapidity; no top particle found!")
