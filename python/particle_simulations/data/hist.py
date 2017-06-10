@@ -24,5 +24,5 @@ class Hist(DataGetter):
             p.next()
 
             meson_count, baryon_count = util.count_mesons_and_baryons(list(p.event))
-            eta = util.get_pseudorapidity(p.event)
+            eta = util.get_pseudorapidity(list(p.event))
             self.write((meson_count, baryon_count, eta))
