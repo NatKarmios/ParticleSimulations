@@ -10,7 +10,7 @@ class Hist(DataGetter):
     def __init__(self, type_="hist",
                  energy_level: int = DEFAULT_ENERGY_LEVEL,
                  number_of_collisions: int = DEFAULT_NUMBER_OF_COLLISIONS):
-        super().__init__(type_, ("mesons", "baryons"))
+        super().__init__(type_, ("mesons", "baryons", "eta"))
         self.energy_level = energy_level
         self.number_of_collisions = number_of_collisions
 
@@ -22,5 +22,7 @@ class Hist(DataGetter):
         for i in range(self.number_of_collisions):
             self._update(i / self.number_of_collisions)
             p.next()
+
             meson_count, baryon_count = util.count_mesons_and_baryons(list(p.event))
-            self.write((meson_count, baryon_count))
+            eta = util.get_pseudorapidity(p.event)
+            self.write((meson_count, baryon_count, eta))
