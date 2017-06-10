@@ -30,7 +30,7 @@ class DataGetter:
     def _thread_function(self):
         self.filename = create_file(self.type+"_")
         self.write(self.headers)
-        
+
         self.get_data()
         if self.cancelled:
             delete_file(self.filename)

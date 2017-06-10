@@ -20,6 +20,6 @@ def set_energy(pythia: pythia8.Pythia, energy: int) -> None:
     pythia.readString("Beams:eCM = {}".format(energy))
 
 
-def count_mesons_and_baryons(event: Iterable) -> Tuple[int, int]:
+def count_mesons_and_baryons(event: Iterable[pythia8.Particle]) -> Tuple[int, int]:
     return (len(list(filter(lambda prt: prt.id() in meson_codes, event))),
             len((list(filter(lambda prt: prt.id() in baryon_codes, event)))))

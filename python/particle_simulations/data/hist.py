@@ -20,7 +20,7 @@ class Hist(DataGetter):
         p.init()
 
         for i in range(self.number_of_collisions):
-            self.progress = i / self.number_of_collisions
+            self._update(i / self.number_of_collisions)
             p.next()
             meson_count, baryon_count = util.count_mesons_and_baryons(list(p.event))
             self.write((meson_count, baryon_count))

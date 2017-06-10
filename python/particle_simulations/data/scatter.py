@@ -17,8 +17,6 @@ class Scatter(DataGetter):
         p = util.new_pythia_instance()
 
         for energy in range(7000, 14000, self.energy_step):
-            self.progress = (energy - 7000) / 7000
-
             self._update(progress=(energy - 7000) / 7000)
 
             if self.cancelled:
