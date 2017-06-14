@@ -1,4 +1,5 @@
 from datetime import datetime
+from pprint import pformat
 from typing import Dict, Iterable, Tuple
 
 import requests
@@ -68,7 +69,10 @@ def upload_files_to_gists(files: Iterable[DataFile]) -> str:
 
     r = requests.post("https://api.github.com/gists", data=json.dumps(data))
     reply = json.loads(r.content.decode())
-    return reply["html_url"]
+    try:
+        return reply["html_url"]
+    except KeyError:
+        raise Exception(pformat(reply, indent=2))
 
 
 def delete_file(filename: str) -> None:
