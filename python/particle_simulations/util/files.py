@@ -56,10 +56,12 @@ def write_line_to_file(filename, data) -> None:
 
 
 def upload_files_to_gists(files: Iterable[DataFile]) -> str:
-    def read_files() -> Iterable[Tuple[str, Dict[str, str]]]:
+    def read_files() -> Dict[str, Dict[str, str]]:
+        files_dict = dict()
         for file in files:
             with open(data_dir + file.filename, "r") as f:
-                yield (file.filename, {"content": f.read()})
+                files_dict[file.filename] = {"content": f.read()}
+        return files_dict
 
     data = {
         "description": "Particle Collision Data | " + datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
