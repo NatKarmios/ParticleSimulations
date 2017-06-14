@@ -50,7 +50,7 @@ class DataGetter:
 
     def __iter__(self):
         yield "pid", self.pid
-        yield "files", self.files
+        yield "files", self.files_dict
         yield "finished", self.finished
         yield "progress", self.progress
         yield "gist_url", self.gist_url
@@ -58,6 +58,13 @@ class DataGetter:
     @property
     def dict(self):
         return dict(self)
+
+    @property
+    def files_dict(self):
+        files = dict()
+        for filename, data in self.files.items():
+            files[filename] = data.dict
+        return files
 
     def cancel(self):
         self.cancelled = True

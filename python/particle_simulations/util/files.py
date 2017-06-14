@@ -24,6 +24,15 @@ class DataFile:
     def delete(self):
         delete_file(self.filename)
 
+    def __iter__(self):
+        yield "filename_prefix", self.filename_prefix
+        yield "filename", self.filename
+        yield "headers", self.headers
+
+    @property
+    def dict(self):
+        return dict(self)
+
 
 def _create_data_dir(dir_name=data_dir):
     global data_dir
