@@ -27,7 +27,9 @@ class DataGetter:
             self._thread.run()
 
     def _thread_function(self):
-        self.files = dict((name, DataFile(name, headers) for name, headers in self.file_scheme.items()))
+        self.files = dict()
+        for name, headers in self.file_scheme.items():
+            self.files[name] = DataFile(name, headers)
 
         self.get_data()
         if self.cancelled:
