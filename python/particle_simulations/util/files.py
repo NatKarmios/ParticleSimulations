@@ -55,7 +55,7 @@ def write_line_to_file(filename, data) -> None:
 
 
 def upload_file_to_gists(files: Iterable[DataFile]) -> str:
-    def read_files() -> Iterable[(str, Dict[str, str])]:
+    def read_files() -> Iterable[Tuple[str, Dict[str, str]]]:
         for file in files:
             with open(data_dir + file.filename, "r") as f:
                 yield (file.filename, {"content": f.read()})
