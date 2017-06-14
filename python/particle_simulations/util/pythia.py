@@ -1,4 +1,4 @@
-from typing import Tuple, Iterable
+from typing import Tuple, Iterable, Union, List
 
 import pythia8
 from util import meson_codes, baryon_codes
@@ -20,13 +20,17 @@ def set_energy(pythia: pythia8.Pythia, energy: int) -> None:
     pythia.readString("Beams:eCM = {}".format(energy))
 
 
-def count_mesons_and_baryons(event: Iterable[pythia8.Particle]) -> Tuple[int, int]:
-    return (len(list(filter(lambda prt: prt.id() in meson_codes, event))),
-            len((list(filter(lambda prt: prt.id() in baryon_codes, event)))))
+def count_mesons_and_baryons(event: Iterable[pythia8.Particle], eta=False) \
+        -> Union[(int, int), ((int, int), List[float], List[float])]:
+    mesons = list(filter(lambda prt: prt.id() in meson_codes, event))
+    baryons = list(filter(lambda prt: prt.id() in baryon_codes, event))
 
+    meson_count, baryon_count = len(mesons), len(baryons)
 
-def get_pseudorapidity(event: Iterable[pythia8.Particle]) -> float:
-    for prt in event:
-        if prt.id() == 6:
-            return prt.eta()
-    raise RuntimeError("Failed to get pseudorapidity; no top particle found!")
+    if eta:
+        mesons_eta = [meson.eta() for meson in mesons]
+        baryons_eta = [baryon.eta() for baryon in baryons]
+
+        return (meson_count, baryon_count), mesons_eta, baryons_eta
+
+    return meson_count, baryon_count
