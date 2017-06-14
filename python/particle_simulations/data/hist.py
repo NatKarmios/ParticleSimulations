@@ -35,5 +35,5 @@ class Hist(DataGetter):
                 = util.count_mesons_and_baryons(list(p.event), eta=True)
 
             ratio_hist_file.write(counts)
-            mesons_eta_hist_file.write("\n".join(mesons_eta))
-            baryons_eta_hist_file.write("\n".join(baryons_eta))
+            mesons_eta_hist_file.write("\n".join(map(str, mesons_eta)))
+            baryons_eta_hist_file.write("\n".join(map(str, baryons_eta)))
