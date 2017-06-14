@@ -1,14 +1,28 @@
 from datetime import datetime
-from typing import Dict, Iterable
+from typing import Dict, Iterable, Tuple
 
 import requests
 import json
 import os
 
-from data import DataFile
-
 DEFAULT_DATA_DIR = "output/"
 data_dir = DEFAULT_DATA_DIR
+
+
+class DataFile:
+    def __init__(self, filename_prefix: str, headers: Tuple[str, ...]):
+        self.filename_prefix = filename_prefix
+        self.filename = create_file(filename_prefix + "_")
+
+        self.headers = headers
+        if self.headers is not None:
+            self.write(headers)
+
+    def write(self, data):
+        write_line_to_file(self.filename, data)
+
+    def delete(self):
+        delete_file(self.filename)
 
 
 def _create_data_dir(dir_name=data_dir):

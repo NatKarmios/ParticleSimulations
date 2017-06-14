@@ -1,4 +1,4 @@
-from typing import Tuple, Iterable, Union, List
+from typing import Iterable, Union, List
 
 import pythia8
 from util import meson_codes, baryon_codes

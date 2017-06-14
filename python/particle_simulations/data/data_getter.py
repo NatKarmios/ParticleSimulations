@@ -1,25 +1,9 @@
 from threading import Thread
 from typing import Tuple, Dict
 
-from util import create_file, upload_file_to_gists, delete_file, write_line_to_file
+from util import upload_file_to_gists, DataFile
 
 _pid = 0
-
-
-class DataFile:
-    def __init__(self, filename_prefix: str, headers: Tuple[str, ...]):
-        self.filename_prefix = filename_prefix
-        self.filename = create_file(filename_prefix + "_")
-
-        self.headers = headers
-        if self.headers is not None:
-            self.write(headers)
-
-    def write(self, data):
-        write_line_to_file(self.filename, data)
-
-    def delete(self):
-        delete_file(self.filename)
 
 
 class DataGetter:

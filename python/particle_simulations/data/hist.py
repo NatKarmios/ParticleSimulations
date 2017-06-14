@@ -1,5 +1,4 @@
 import util
-from data import DataFile
 from pythia8 import Pythia
 from data.data_getter import DataGetter
 
@@ -20,9 +19,9 @@ class Hist(DataGetter):
         self.number_of_collisions = number_of_collisions
 
     def get_data(self):
-        ratio_hist_file = self.files["ratio_hist"]  # type: DataFile
-        mesons_eta_hist_file = self.files["mesons_eta_hist"]  # type: DataFile
-        baryons_eta_hist_file = self.files["baryons_eta_hist"]  # type: DataFile
+        ratio_hist_file = self.files["ratio_hist"]  # type: util.DataFile
+        mesons_eta_hist_file = self.files["mesons_eta_hist"]  # type: util.DataFile
+        baryons_eta_hist_file = self.files["baryons_eta_hist"]  # type: util.DataFile
 
         p = util.new_pythia_instance()  # type: Pythia
         util.set_energy(p, self.energy_level)
