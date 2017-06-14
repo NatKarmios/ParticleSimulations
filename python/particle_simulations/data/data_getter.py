@@ -1,7 +1,7 @@
 from threading import Thread
 from typing import Tuple, Dict
 
-from util import upload_file_to_gists, DataFile
+from util import upload_files_to_gists, DataFile
 
 _pid = 0
 
@@ -36,7 +36,7 @@ class DataGetter:
             [f.delete() for f in self.files.values()]
             print("{} cancelled.".format(self.pid))
         else:
-            self.gist_url = upload_file_to_gists(self.files.values())
+            self.gist_url = upload_files_to_gists(self.files.values())
             self.progress = 1.0
             self.finished = True
             print("{} finished.".format(self.pid))
