@@ -66,7 +66,7 @@ def upload_files_to_gists(files: Iterable[DataFile]) -> str:
     data = {
         "description": "Particle Collision Data | " + datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
         "public": True,
-        "files": dict(read_files())
+        "files": read_files()
     }
 
     r = requests.post("https://api.github.com/gists", data=json.dumps(data))
