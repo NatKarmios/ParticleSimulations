@@ -1,22 +1,21 @@
 from threading import Thread
-from typing import Iterable
+from typing import Tuple, Dict
 
-from util import create_file, upload_file_to_gists, delete_file, write_line_to_file
+from util import upload_files_to_gists, DataFile
 
 _pid = 0
 
 
 class DataGetter:
-    def __init__(self, type_: str, headers: Iterable[str]):
+    def __init__(self, files: Dict[str, Tuple[str, ...]]):
         global _pid
         self.pid = _pid
         _pid += 1
 
-        self.type = type_  # type: str
-        self.headers = headers
+        self.file_scheme = files  # type: Dict[str, Tuple[str, ...]]
         self.progress = 0  # type: float
         self.finished = False  # type: bool
-        self.filename = None  # type: str
+        self.files = None  # type: Dict[str, DataFile]
         self.gist_url = None  # type: str
         self.cancelled = False
         self._thread = Thread(target=self._thread_function)
@@ -28,15 +27,16 @@ class DataGetter:
             self._thread.run()
 
     def _thread_function(self):
-        self.filename = create_file(self.type+"_")
-        self.write(self.headers)
-        
+        self.files = dict()
+        for name, headers in self.file_scheme.items():
+            self.files[name] = DataFile(name, headers)
+
         self.get_data()
         if self.cancelled:
-            delete_file(self.filename)
+            [f.delete() for f in self.files.values()]
             print("{} cancelled.".format(self.pid))
         else:
-            self.gist_url = upload_file_to_gists(self.filename)
+            self.gist_url = upload_files_to_gists(self.files.values())
             self.progress = 1.0
             self.finished = True
             print("{} finished.".format(self.pid))
@@ -48,12 +48,9 @@ class DataGetter:
         if progress is not None:
             self.progress = progress
 
-    def write(self, data):
-        write_line_to_file(self.filename, data)
-
     def __iter__(self):
         yield "pid", self.pid
-        yield "type", self.type
+        yield "files", self.files_dict
         yield "finished", self.finished
         yield "progress", self.progress
         yield "gist_url", self.gist_url
@@ -61,6 +58,13 @@ class DataGetter:
     @property
     def dict(self):
         return dict(self)
+
+    @property
+    def files_dict(self):
+        files = dict()
+        for filename, data in self.files.items():
+            files[filename] = data.dict
+        return files
 
     def cancel(self):
         self.cancelled = True
