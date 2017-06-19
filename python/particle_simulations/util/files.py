@@ -53,7 +53,7 @@ def create_file(prefix="") -> str:
 def write_line_to_file(filename, data) -> None:
     if "".join(map(str, data)) != "":
         with open(data_dir+"/"+filename, "a+") as file:
-            file.write(",".join(map(str, data)) + "\n")
+            file.write(",".join(map(str, data)) + ("," if len(tuple(data)) == 1 else "") + "\n")
 
 
 def upload_files_to_gists(files: Iterable[DataFile]) -> str:
