@@ -61,7 +61,9 @@ def upload_files_to_gists(files: Iterable[DataFile]) -> str:
         files_dict = dict()
         for file in files:
             with open(data_dir + file.filename, "r") as f:
-                files_dict[file.filename] = {"content": f.read()}
+                content = f.read()
+            if content.replace("\n", "") != "":
+                files_dict[file.filename] = {"content": content}
         return files_dict
 
     data = {
