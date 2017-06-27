@@ -12,8 +12,8 @@ class Hist(DataGetter):
                  number_of_collisions: int = DEFAULT_NUMBER_OF_COLLISIONS):
         super().__init__({
             "ratio_hist": ("mesons", "baryons"),
-            "mesons_eta_hist": None,
-            "baryons_eta_hist": None
+            "mesons_eta_hist": ("mesons_eta",),
+            "baryons_eta_hist": ("baryons_eta",)
         })
         self.energy_level = energy_level
         self.number_of_collisions = number_of_collisions
