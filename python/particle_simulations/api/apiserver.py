@@ -72,7 +72,10 @@ class APIServer:
         return hist.pid
 
     def delete_generator(self, pid: int):
-        self.data_generators.pop(pid).cancel()
+        for generator in self.data_generators:
+            if generator.pid == pid:
+                self.data_generators.remove(generator)
+                generator.cancel()
 
     def get_flask(self):
         self.started = True
