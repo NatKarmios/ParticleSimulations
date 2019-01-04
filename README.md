@@ -1,6 +1,8 @@
 Particle Simulations
 ====================
 
+***Edit: the paper is now available [here in the repository](https://github.com/NatKarmios/ParticleSimulations/blob/master/paper.pdf).***
+
 #### *Used as part of the CREST project by Nat Karmios, Nima Sahba, Carlos Barredo, and Lucas George.*
 
 Generates specifically-purposed data using the 
